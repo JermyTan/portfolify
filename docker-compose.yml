@@ -1,0 +1,23 @@
+version: "3.8"
+
+services:
+  frontend:
+    image: jermytan/portfolify-frontend
+    build:
+      context: ./frontend
+    ports:
+      - "80:80"
+    networks:
+      - frontend
+      - backend
+
+  backend:
+    image: jermytan/portfolify-backend
+    build:
+      context: ./backend
+    networks:
+      - backend
+
+networks:
+  frontend:
+  backend:
