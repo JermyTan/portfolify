@@ -1,22 +1,35 @@
 version: "3.8"
 
 services:
-  frontend:
-    image: jermytan/portfolify-frontend
+  ## can be accessed from host
+  reverse-proxy:
+    image: jermytan/portfolify-reverse-proxy
     build:
-      context: ./frontend
+      context: ./reverse-proxy
     ports:
       - "80:80"
     networks:
       - frontend
       - backend
+    restart: always
 
+  ## can only be accessed from same network
+  frontend:
+    image: jermytan/portfolify-frontend
+    build:
+      context: ./frontend
+    networks:
+      - frontend
+    restart: always
+
+  ## can only be accessed from same network
   backend:
     image: jermytan/portfolify-backend
     build:
       context: ./backend
     networks:
       - backend
+    restart: always
 
 networks:
   frontend:
