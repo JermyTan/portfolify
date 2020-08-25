@@ -1,6 +1,10 @@
 ## git
 .gitignore
 
+## docker
+docker-compose.yml
+docker-compose.yaml
+
 # Django #
 *.log
 *.pot
