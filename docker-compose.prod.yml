@@ -46,18 +46,36 @@ services:
       - LETSENCRYPT_HOST=portfolify.jermytan.com
       - LETSENCRYPT_EMAIL=tan_kai_qun97@yahoo.com.sg
 
-  ## can only be accessed from same network
+  ## can only be accessed within frontend network
   frontend:
     image: jermytan/portfolify-frontend
     networks:
       - frontend
     restart: always
 
-  ## can only be accessed from same network
+  ## can only be accessed within backend network
   backend:
     image: jermytan/portfolify-backend
+    command: gunicorn portfolify.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - static-volume:/app/static
     networks:
       - backend
+    restart: always
+    env_file:
+      - .env.backend.prod
+    depends_on:
+      - db
+
+  ## can only be accessed within backend network
+  db:
+    image: postgres:12-alpine
+    networks:
+      - backend
+    volumes:
+      - postgres-data:/var/lib/postgresql/data/
+    env_file:
+      - .env.db.prod
     restart: always
 
 networks:
@@ -69,3 +87,5 @@ volumes:
   nginx-certs:
   nginx-vhost:
   nginx-html:
+  postgres-data:
+  static-volume:

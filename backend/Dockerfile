@@ -12,12 +12,17 @@ ENV PYTHONUNBUFFERED 1
 ## install dependencies
 RUN pip install --upgrade pip
 COPY ./requirements.txt .
-RUN pip install -r requirements.txt
+RUN apk update && \
+    apk add postgresql-libs && \
+    apk add --no-cache --virtual .build-deps \
+    gcc \
+    musl-dev \
+    postgresql-dev \
+    && pip install --no-cache-dir -r requirements.txt \
+    && apk del --no-cache .build-deps
 
 ## copy project to working directory
 COPY . .
 
-EXPOSE 8000
-
-## run server
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+## run entrypoint.sh
+ENTRYPOINT [ "/app/entrypoint.sh" ]

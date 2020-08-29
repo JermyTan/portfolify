@@ -3,6 +3,10 @@
 import os
 import sys
 
+# only for dev
+from dotenv import load_dotenv
+load_dotenv(".env.backend.local")
+
 
 def main():
     """Run administrative tasks."""
