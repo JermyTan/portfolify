@@ -35,6 +35,8 @@ services:
   ## entry point for portfolify app containers
   app-reverse-proxy:
     image: jermytan/portfolify-reverse-proxy
+    volumes:
+      - static-volume:/app/static
     networks:
       - service
       - frontend
