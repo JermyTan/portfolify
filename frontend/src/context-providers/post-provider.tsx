@@ -1,5 +1,6 @@
 import React, { createContext } from "react";
 import useAxios from "axios-hooks";
+import { AxiosError } from "axios";
 
 export type Image = {
   post: number;
@@ -18,13 +19,14 @@ export type Post = {
 
 type PostContextType = {
   posts: Post[];
-  getPosts: () => void;
+  getAllPosts: () => void;
   isLoading: boolean;
+  error?: AxiosError;
 };
 
 export const PostContext = createContext<PostContextType>({
   posts: [],
-  getPosts: () => {},
+  getAllPosts: () => {},
   isLoading: true,
 });
 
@@ -33,18 +35,22 @@ type Props = {
 };
 
 function PostProvider({ children }: Props) {
-  const [{ data: response, loading }, refetch] = useAxios({
-    url: "/posts",
-    method: "get",
-    baseURL: "http://localhost:8000",
-  });
+  const [{ data: response, loading, error }, refetch] = useAxios(
+    {
+      url: "/posts",
+      method: "get",
+      baseURL: "http://localhost:8000",
+    },
+    { manual: true }
+  );
 
   return (
     <PostContext.Provider
       value={{
-        getPosts: refetch,
+        getAllPosts: refetch,
         posts: response?.data ?? [],
         isLoading: loading,
+        error: error,
       }}
     >
       {children}

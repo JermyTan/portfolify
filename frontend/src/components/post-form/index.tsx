@@ -1,8 +1,8 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { Form, Label, Divider } from "semantic-ui-react";
+import { Form, Label } from "semantic-ui-react";
 import useAxios from "axios-hooks";
-import "./index.scss";
+import { toast } from "react-toastify";
 
 type Props = {
   onSubmitEffect?: () => void;
@@ -11,7 +11,7 @@ type Props = {
 
 function PostForm({ onSubmitEffect, onCancelEffect }: Props) {
   const { register, handleSubmit, getValues, errors, reset } = useForm();
-  const [{ loading, error }, createPost] = useAxios(
+  const [{ loading }, createPost] = useAxios(
     {
       url: "/posts/",
       method: "post",
@@ -22,14 +22,21 @@ function PostForm({ onSubmitEffect, onCancelEffect }: Props) {
   const { title: titleError, content: contentError } = errors;
 
   const onSubmit = async () => {
-    await createPost({
-      data: {
-        title: getValues("title"),
-        content: getValues("content"),
-      },
-    });
-    onSubmitEffect?.();
-    reset();
+    try {
+      await createPost({
+        data: {
+          title: getValues("title"),
+          content: getValues("content"),
+        },
+      });
+
+      toast.success("A new post has been successfully created.");
+      onSubmitEffect?.();
+      reset();
+    } catch (error) {
+      console.log(error);
+      toast.error("An unkown error has occurred.");
+    }
   };
 
   const onCancel = () => {
@@ -73,7 +80,7 @@ function PostForm({ onSubmitEffect, onCancelEffect }: Props) {
         <textarea name="content" rows={10} ref={register({ required: true })} />
       </Form.Field>
 
-      <Form.Group className="form-action-group">
+      <Form.Group className="button-action-group">
         <Form.Button
           type="button"
           content="Cancel"

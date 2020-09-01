@@ -1,10 +1,10 @@
 import React, { useState, useContext } from "react";
 import { Button, Icon, TransitionablePortal, Modal } from "semantic-ui-react";
 import PostForm from "../post-form";
-import { PostContext } from "../../context-providers/PostProvider";
+import { PostContext } from "../../context-providers/post-provider";
 
 function CreatePostButton() {
-  const { getPosts } = useContext(PostContext);
+  const { getAllPosts } = useContext(PostContext);
   const [isCreating, setCreating] = useState(false);
 
   return (
@@ -31,7 +31,7 @@ function CreatePostButton() {
             <PostForm
               onSubmitEffect={() => {
                 setCreating(false);
-                getPosts();
+                getAllPosts();
               }}
               onCancelEffect={() => {
                 setCreating(false);

@@ -1,16 +1,21 @@
 import React from "react";
+import { toast } from "react-toastify";
+import PostProvider from "./context-providers/post-provider";
+import Routes from "./routes";
+import "react-toastify/dist/ReactToastify.min.css";
+import "semantic-ui-css/semantic.min.css";
 import "./App.scss";
-import AppHeader from "./components/app-header";
-import AppBody from "./components/app-body";
-import PostProvider from "./context-providers/PostProvider";
+
+toast.configure({
+  position: "bottom-center",
+  autoClose: 4000,
+  limit: 3,
+});
 
 function App() {
   return (
     <PostProvider>
-      <div className="App">
-        <AppHeader />
-        <AppBody />
-      </div>
+      <Routes />
     </PostProvider>
   );
 }
