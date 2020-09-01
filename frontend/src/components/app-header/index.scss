@@ -1,0 +1,23 @@
+#header-section {
+  .border-section {
+    background-color: #455a64;
+  }
+
+  .main-section {
+    background-color: #607d8b;
+    align-items: center;
+  }
+
+  .title {
+    font-family: "Lobster", cursive;
+    font-size: 5rem;
+    font-weight: normal;
+    color: white;
+    margin: 0;
+  }
+
+  .divider {
+    border-color: white;
+    width: 70%;
+  }
+}
