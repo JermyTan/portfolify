@@ -11,6 +11,12 @@ imagekit = ImageKit(
 
 
 class PostManager(models.Manager):
+    def get_post(self, id):
+        try:
+            return self.get(id=id)
+        except self.model.DoesNotExist:
+            return None
+        
     def create_post(self, title, content, image_uri=None):
         new_post = self.create(title=title, content=content)
 

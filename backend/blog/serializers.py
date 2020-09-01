@@ -35,5 +35,5 @@ class DeleteSerializer(serializers.Serializer):
 class ViewPostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
-        fields = ["id", "created", "title", "image", "content"]
+        fields = ["id", "created_at", "title", "image", "content"]
         depth = 1

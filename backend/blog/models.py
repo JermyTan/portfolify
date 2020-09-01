@@ -1,16 +1,17 @@
 from django.db import models
 from .managers import PostManager, ImageManager
-
+from unixtimestampfield.fields import UnixTimeStampField
 # Create your models here.
 
 
 class Post(models.Model):
-    created = models.DateTimeField(auto_now_add=True)
+    created_at = UnixTimeStampField(
+        auto_now_add=True, use_numeric=True)
     title = models.CharField(max_length=100)
     content = models.TextField()
 
     class Meta:
-        ordering = ["-created"]
+        ordering = ["-created_at"]
 
     objects = PostManager()
 

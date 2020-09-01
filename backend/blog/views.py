@@ -10,10 +10,25 @@ from rest_framework import status
 from portfolify.common.api_responses import (
     create_ok_response,
     create_bad_request_response,
-    create_custom_positive_response
+    create_custom_positive_response,
+    create_custom_negative_response,
 )
 
 # Create your views here.
+
+class PostDetail(APIView):
+    def get(self, request, id):
+        post = Post.objects.get_post(id)
+
+        if post is None:
+            return create_custom_negative_response(
+                data={"id": [f"id {id} does not exist"]}, 
+                response_status=status.HTTP_404_NOT_FOUND
+            )
+        
+        serializer = ViewPostSerializer(post)
+
+        return create_ok_response(serializer.data)
 
 
 class PostList(APIView):
@@ -49,7 +64,7 @@ class PostList(APIView):
         serializer = ModifyPostSerializer(data=request.data)
 
         if not serializer.is_valid():
-            return create_bad_request_response(data=serializer.errors)
+            return create_custom_negative_response(data=serializer.errors, response_status=status.HTTP_404_NOT_FOUND)
 
         id = serializer.validated_data.get("id")
         title = serializer.validated_data.get("title")
