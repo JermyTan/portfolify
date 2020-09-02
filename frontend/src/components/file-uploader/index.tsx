@@ -28,7 +28,12 @@ function FileUploader({ accept, multiple = true, onAcceptFiles }: Props) {
     isFocused,
     isDragAccept,
     isDragReject,
-  } = useDropzone({ accept, multiple, onDropAccepted: onAcceptFiles });
+  } = useDropzone({
+    accept,
+    multiple,
+    onDropAccepted: onAcceptFiles,
+    maxSize: 2097152,
+  });
 
   const style = useMemo(
     () => ({
@@ -51,6 +56,7 @@ function FileUploader({ accept, multiple = true, onAcceptFiles }: Props) {
         <Icon name="image" />
         Drag and Drop, or Click to upload an image.
       </Header>
+      <p className="upload-prompt">Maximum accepted image size is 2MB.</p>
     </div>
   );
 }

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Form, Label } from "semantic-ui-react";
+import { Form, Label, StrictButtonProps } from "semantic-ui-react";
 import { toast } from "react-toastify";
 import ImageUploadCropper from "../image-upload-cropper";
 import { parseDataUrlToEncodedData } from "../../utils/parser";
@@ -17,9 +17,16 @@ type Props = {
   onCancel?: (data: FormFieldProps) => void;
   defaultValues?: FormFieldProps;
   defaultImage?: string;
+  submitButtonProps: { content: string; color: StrictButtonProps["color"] };
 };
 
-function PostForm({ onSubmit, onCancel, defaultValues, defaultImage }: Props) {
+function PostForm({
+  onSubmit,
+  onCancel,
+  defaultValues,
+  defaultImage,
+  submitButtonProps,
+}: Props) {
   const {
     register,
     handleSubmit,
@@ -72,6 +79,7 @@ function PostForm({ onSubmit, onCancel, defaultValues, defaultImage }: Props) {
               [name, parseDataUrlToEncodedData(data)].join(":")
             );
           }}
+          onChangeImage={() => setValue("encodedImageData", undefined)}
         />
       </Form.Field>
 
@@ -117,9 +125,8 @@ function PostForm({ onSubmit, onCancel, defaultValues, defaultImage }: Props) {
         />
         <Form.Button
           type="submit"
-          content="Create"
-          primary
           loading={isSubmitting}
+          {...submitButtonProps}
         />
       </Form.Group>
     </Form>

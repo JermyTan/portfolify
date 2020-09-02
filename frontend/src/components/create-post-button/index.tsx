@@ -11,13 +11,13 @@ function CreatePostButton() {
     {
       url: "/posts/",
       method: "post",
-      baseURL: "http://localhost:8000",
+      baseURL: process.env.REACT_APP_API_URL,
     },
     { manual: true }
   );
   const [isCreating, setCreating] = useState(false);
 
-  const onSubmit = async (data: FormFieldProps) => {
+  const onCreate = async (data: FormFieldProps) => {
     const { encodedImageData, title, content } = data;
     await createPost({
       data: { title, content, image_data: encodedImageData || undefined },
@@ -48,7 +48,11 @@ function CreatePostButton() {
         <Modal open={true} onClose={() => setCreating(false)} size="small">
           <Modal.Header>New Post</Modal.Header>
           <Modal.Content>
-            <PostForm onSubmit={onSubmit} onCancel={() => setCreating(false)} />
+            <PostForm
+              onSubmit={onCreate}
+              onCancel={() => setCreating(false)}
+              submitButtonProps={{ content: "Create", color: "blue" }}
+            />
           </Modal.Content>
         </Modal>
       </TransitionablePortal>

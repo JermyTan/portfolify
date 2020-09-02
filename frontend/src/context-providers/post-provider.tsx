@@ -39,7 +39,7 @@ function PostProvider({ children }: Props) {
     {
       url: "/posts",
       method: "get",
-      baseURL: "http://localhost:8000",
+      baseURL: process.env.REACT_APP_API_URL,
     },
     { manual: true }
   );

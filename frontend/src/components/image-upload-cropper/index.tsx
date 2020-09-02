@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Image, Divider, Button } from "semantic-ui-react";
 import FileUploader from "../file-uploader";
 import ImageCropper from "../image-cropper";
-import "./index.scss";
 
 type ImageData = {
   name: string;
@@ -11,10 +10,15 @@ type ImageData = {
 
 type Props = {
   onFinalizeImage?: (imageData: ImageData) => void;
+  onChangeImage?: () => void;
   defaultImage?: string;
 };
 
-function ImageUploadCropper({ onFinalizeImage, defaultImage = "" }: Props) {
+function ImageUploadCropper({
+  onFinalizeImage,
+  defaultImage = "",
+  onChangeImage,
+}: Props) {
   const [uploadedImageData, setUploadedImageData] = useState<ImageData>();
   const [croppedImage, setCroppedImage] = useState("");
 
@@ -43,7 +47,12 @@ function ImageUploadCropper({ onFinalizeImage, defaultImage = "" }: Props) {
     if (croppedImage) {
       return (
         <div>
-          <Image className="preview-image" src={croppedImage} />
+          <Image
+            className="preview-image"
+            src={croppedImage}
+            rounded
+            centered
+          />
           <Divider />
           <div className="action-button-group justify-center">
             {uploadedImageData && (
@@ -63,6 +72,7 @@ function ImageUploadCropper({ onFinalizeImage, defaultImage = "" }: Props) {
               onClick={() => {
                 setCroppedImage("");
                 setUploadedImageData(undefined);
+                onChangeImage?.();
               }}
             />
           </div>
@@ -78,6 +88,7 @@ function ImageUploadCropper({ onFinalizeImage, defaultImage = "" }: Props) {
             onFinalizeImage?.({ ...uploadedImageData, data: image });
           }}
           onCancel={() => setUploadedImageData(undefined)}
+          enableRotation={true}
         />
       );
     } else {

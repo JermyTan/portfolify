@@ -28,7 +28,7 @@ export async function getCroppedImage(
   }
 
   const maxSize = Math.max(image.width, image.height);
-  const safeArea = 2 * ((maxSize / 2) * Math.sqrt(2));
+  const safeArea = 2.5 * maxSize;
 
   // set each dimensions to double largest dimension to allow for a safe area for the
   // image to rotate in without being clipped by canvas context

@@ -18,6 +18,8 @@ type Props = {
 };
 
 let inputAspectRatio: number = defaultAspectRatio;
+let height: number = 0;
+let width: number = 0;
 
 const scaleHeight = () => {
   const imageCropper = document.getElementById("image-cropper");
@@ -29,6 +31,9 @@ const scaleHeight = () => {
   imageCropper.style.height = `${
     imageCropper.offsetWidth / inputAspectRatio
   }px`;
+
+  height = imageCropper.offsetHeight * 0.9;
+  width = imageCropper.offsetWidth * 0.9;
 };
 
 window.addEventListener("resize", scaleHeight);
@@ -44,6 +49,7 @@ function ImageCropper({
   const [zoom, setZoom] = useState(1);
   const [rotation, setRotation] = useState(0);
   const [croppedAreaPixels, setCroppedAreaPixes] = useState<Area>();
+  const [isCropping, setCropping] = useState(false);
   const reset = () => {
     setCrop({ x: 0, y: 0 });
     setZoom(1);
@@ -60,7 +66,7 @@ function ImageCropper({
     if (!croppedAreaPixels) {
       return;
     }
-
+    setCropping(true);
     try {
       const croppedImage =
         (await getCroppedImage(image, croppedAreaPixels, rotation)) ?? "";
@@ -68,6 +74,7 @@ function ImageCropper({
     } catch (error) {
       console.log(error);
     }
+    setCropping(false);
   };
 
   const onRotationChange = useCallback(
@@ -87,14 +94,16 @@ function ImageCropper({
           aspect={fixedAspectRatio}
           onCropChange={setCrop}
           onZoomChange={setZoom}
-          onCropComplete={(croppedArea, croppedAreaPixels) =>
-            setCroppedAreaPixes(croppedAreaPixels)
-          }
+          onCropComplete={(croppedArea, croppedAreaPixels) => {
+            console.log(croppedArea, croppedAreaPixels);
+            setCroppedAreaPixes(croppedAreaPixels);
+          }}
           showGrid={false}
           minZoom={0.75}
           restrictPosition={false}
           rotation={rotation}
           onRotationChange={onRotationChange}
+          cropSize={{ height, width }}
         />
       </div>
 
@@ -137,6 +146,7 @@ function ImageCropper({
           color="green"
           content="Confirm"
           onClick={onCropConfirm}
+          loading={isCropping}
         />
       </div>
     </div>

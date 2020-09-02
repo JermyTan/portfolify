@@ -26,14 +26,17 @@ class PostManager(models.Manager):
         return new_post
 
     def modify_post(self, id, title, content, image_data=None):
-        # attempt to delete images at remote storage
-        apps.get_model("blog", "Image").objects.delete_images(id)
-
         current_post = self.get(id=id)
         current_post.title = title
         current_post.content = content
         current_post.save()
 
+        if image_data == "no change":
+            return current_post
+
+        # attempt to delete image at remote storage
+        apps.get_model("blog", "Image").objects.delete_images(id)
+        # attempt to create new image if any
         apps.get_model("blog", "Image").objects.create_image(
             post=current_post, image_data=image_data)
 

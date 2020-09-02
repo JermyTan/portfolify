@@ -16,7 +16,7 @@ function DeletePostButton({ className, id }: Props) {
     {
       url: `/posts/`,
       method: "delete",
-      baseURL: "http://localhost:8000",
+      baseURL: process.env.REACT_APP_API_URL,
     },
     { manual: true }
   );
