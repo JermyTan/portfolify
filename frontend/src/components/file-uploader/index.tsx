@@ -41,8 +41,10 @@ function FileUploader({ accept, multiple = true, onAcceptFiles }: Props) {
 
   return (
     <div
-      className="upload-container"
-      {...getRootProps({ isDragAccept, isFocused, isDragReject, style })}
+      {...getRootProps({
+        style,
+        className: "upload-container",
+      })}
     >
       <input {...getInputProps()} />
       <Header icon>
