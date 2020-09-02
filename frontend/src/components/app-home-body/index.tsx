@@ -9,7 +9,7 @@ function AppHomeBody() {
 
   useEffect(() => {
     getAllPosts();
-  }, []);
+  }, [getAllPosts]);
 
   return (
     <Segment vertical padded>

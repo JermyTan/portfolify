@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { Form, Label } from "semantic-ui-react";
 import useAxios from "axios-hooks";
 import { toast } from "react-toastify";
+import FileUploader from "../file-uploader";
 
 type Props = {
   onSubmitEffect?: () => void;
@@ -44,10 +45,18 @@ function PostForm({ onSubmitEffect, onCancelEffect }: Props) {
     reset();
   };
 
-  console.log(errors);
-
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
+      <Form.Field>
+        <FileUploader
+          onAcceptFiles={(files) => {
+            console.log(files?.[0]);
+          }}
+          multiple={false}
+          accept={["image/jpeg", "image/png", "image/gif"]}
+        />
+      </Form.Field>
+
       <Form.Field required error={!!titleError}>
         <label>Title</label>
         {titleError && (
