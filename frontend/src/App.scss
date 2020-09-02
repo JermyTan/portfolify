@@ -73,11 +73,18 @@
   overflow-wrap: break-word;
 }
 
-.button-action-group {
+.action-button-group {
   display: flex;
+  align-items: center;
+}
+
+.justify-end {
   justify-content: flex-end;
 }
 
+.justify-center {
+  justify-content: center;
+}
 .Toastify__toast {
   border-radius: 0.28571429rem;
   text-align: center;

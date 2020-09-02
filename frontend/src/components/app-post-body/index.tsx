@@ -48,7 +48,7 @@ function AppPostBody() {
 
           <Divider hidden section />
 
-          <div className="button-action-group">
+          <div className="action-button-group justify-end">
             <DeletePostButton id={id} className="post-action-button" />
 
             <Button

@@ -3,3 +3,7 @@ export function parseDataUrlToEncodedData(dataUrl: string) {
   const encodedData = partition?.[1];
   return encodedData ?? "";
 }
+
+export function getMimeTypeFromDataUrl(dataUrl: string) {
+  return dataUrl.substring(dataUrl.indexOf(":") + 1, dataUrl.indexOf(";"));
+}

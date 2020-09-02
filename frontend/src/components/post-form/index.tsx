@@ -3,7 +3,6 @@ import { useForm } from "react-hook-form";
 import { Form, Label } from "semantic-ui-react";
 import useAxios from "axios-hooks";
 import { toast } from "react-toastify";
-import FileUploader from "../file-uploader";
 import ImageUploadCropper from "../image-upload-cropper";
 
 type Props = {
@@ -84,7 +83,7 @@ function PostForm({ onSubmitEffect, onCancelEffect }: Props) {
         <textarea name="content" rows={10} ref={register({ required: true })} />
       </Form.Field>
 
-      <Form.Group className="button-action-group">
+      <Form.Group className="action-button-group justify-end">
         <Form.Button
           type="button"
           content="Cancel"
