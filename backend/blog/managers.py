@@ -16,16 +16,16 @@ class PostManager(models.Manager):
             return self.get(id=id)
         except self.model.DoesNotExist:
             return None
-        
-    def create_post(self, title, content, image_uri=None):
+
+    def create_post(self, title, content, image_data=None):
         new_post = self.create(title=title, content=content)
 
         apps.get_model("blog", "Image").objects.create_image(
-            post=new_post, image_uri=image_uri)
+            post=new_post, image_data=image_data)
 
         return new_post
 
-    def modify_post(self, id, title, content, image_uri=None):
+    def modify_post(self, id, title, content, image_data=None):
         # attempt to delete images at remote storage
         apps.get_model("blog", "Image").objects.delete_images(id)
 
@@ -35,7 +35,7 @@ class PostManager(models.Manager):
         current_post.save()
 
         apps.get_model("blog", "Image").objects.create_image(
-            post=current_post, image_uri=image_uri)
+            post=current_post, image_data=image_data)
 
         return current_post
 
@@ -48,14 +48,15 @@ class PostManager(models.Manager):
 
 
 class ImageManager(models.Manager):
-    def create_image(self, post, image_uri):
-        if not image_uri:
+    def create_image(self, post, image_data):
+        if not image_data:
             return
         try:
             # refer to https://docs.imagekit.io/api-reference/upload-file-api/server-side-file-upload
+            file_name, file = image_data.split(":", 1)
             data = imagekit.upload(
-                file=image_uri,
-                file_name="test.jpeg",
+                file=file,
+                file_name=file_name,
             ).get("response")
 
             thumbnail_url = data.get("thumbnailUrl")

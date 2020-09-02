@@ -1,56 +1,81 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Form, Label } from "semantic-ui-react";
-import useAxios from "axios-hooks";
 import { toast } from "react-toastify";
 import ImageUploadCropper from "../image-upload-cropper";
+import { parseDataUrlToEncodedData } from "../../utils/parser";
 
-type Props = {
-  onSubmitEffect?: () => void;
-  onCancelEffect?: () => void;
+export type FormFieldProps = {
+  // <image name>:<base64 encoding>
+  encodedImageData?: string;
+  title?: string;
+  content?: string;
 };
 
-function PostForm({ onSubmitEffect, onCancelEffect }: Props) {
-  const { register, handleSubmit, getValues, errors, reset } = useForm();
-  const [{ loading }, createPost] = useAxios(
-    {
-      url: "/posts/",
-      method: "post",
-      baseURL: "http://localhost:8000",
-    },
-    { manual: true }
-  );
+type Props = {
+  onSubmit?: (data: FormFieldProps) => void;
+  onCancel?: (data: FormFieldProps) => void;
+  defaultValues?: FormFieldProps;
+  defaultImage?: string;
+};
+
+function PostForm({ onSubmit, onCancel, defaultValues, defaultImage }: Props) {
+  const {
+    register,
+    handleSubmit,
+    getValues,
+    errors,
+    reset,
+    setValue,
+  } = useForm({
+    defaultValues,
+  });
+  const [isSubmitting, setSubmitting] = useState(false);
   const { title: titleError, content: contentError } = errors;
 
-  const onSubmit = async () => {
-    try {
-      await createPost({
-        data: {
-          title: getValues("title"),
-          content: getValues("content"),
-        },
-      });
+  const _onSubmit = async () => {
+    setSubmitting(true);
 
-      toast.success("A new post has been successfully created.");
-      onSubmitEffect?.();
+    try {
+      await onSubmit?.({
+        encodedImageData: getValues("encodedImageData"),
+        title: getValues("title"),
+        content: getValues("content"),
+      });
       reset();
     } catch (error) {
       console.log(error);
       toast.error("An unkown error has occurred.");
     }
+
+    setSubmitting(false);
   };
 
-  const onCancel = () => {
-    onCancelEffect?.();
+  const _onCancel = () => {
+    onCancel?.({
+      encodedImageData: getValues("encodedImageData"),
+      title: getValues("title"),
+      content: getValues("content"),
+    });
     reset();
   };
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit)}>
+    <Form onSubmit={handleSubmit(_onSubmit)}>
       <Form.Field>
-        <ImageUploadCropper />
+        <ImageUploadCropper
+          defaultImage={defaultImage}
+          onFinalizeImage={(imageData) => {
+            const { name, data } = imageData;
+            setValue(
+              "encodedImageData",
+              [name, parseDataUrlToEncodedData(data)].join(":")
+            );
+          }}
+        />
       </Form.Field>
 
+      <input name="encodedImageData" ref={register} hidden />
       <Form.Field required error={!!titleError}>
         <label>Title</label>
         {titleError && (
@@ -88,9 +113,14 @@ function PostForm({ onSubmitEffect, onCancelEffect }: Props) {
           type="button"
           content="Cancel"
           secondary
-          onClick={onCancel}
+          onClick={_onCancel}
         />
-        <Form.Button type="submit" content="Create" primary loading={loading} />
+        <Form.Button
+          type="submit"
+          content="Create"
+          primary
+          loading={isSubmitting}
+        />
       </Form.Group>
     </Form>
   );

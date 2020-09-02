@@ -5,8 +5,7 @@ from unixtimestampfield.fields import UnixTimeStampField
 
 
 class Post(models.Model):
-    created_at = UnixTimeStampField(
-        auto_now_add=True, use_numeric=True)
+    created_at = UnixTimeStampField(auto_now_add=True, use_numeric=True)
     title = models.CharField(max_length=100)
     content = models.TextField()
 

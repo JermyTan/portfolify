@@ -54,7 +54,7 @@ function ImageCropper({
     reset();
     inputAspectRatio = fixedAspectRatio ?? defaultAspectRatio;
     scaleHeight();
-  }, [image, inputAspectRatio]);
+  }, [image, fixedAspectRatio]);
 
   const onCropConfirm = async () => {
     if (!croppedAreaPixels) {

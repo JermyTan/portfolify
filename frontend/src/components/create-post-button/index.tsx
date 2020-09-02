@@ -1,11 +1,31 @@
 import React, { useState, useContext } from "react";
 import { Button, Icon, TransitionablePortal, Modal } from "semantic-ui-react";
-import PostForm from "../post-form";
+import useAxios from "axios-hooks";
+import PostForm, { FormFieldProps } from "../post-form";
 import { PostContext } from "../../context-providers/post-provider";
+import { toast } from "react-toastify";
 
 function CreatePostButton() {
   const { getAllPosts } = useContext(PostContext);
+  const [, createPost] = useAxios(
+    {
+      url: "/posts/",
+      method: "post",
+      baseURL: "http://localhost:8000",
+    },
+    { manual: true }
+  );
   const [isCreating, setCreating] = useState(false);
+
+  const onSubmit = async (data: FormFieldProps) => {
+    const { encodedImageData, title, content } = data;
+    await createPost({
+      data: { title, content, image_data: encodedImageData || undefined },
+    });
+    toast.success("A new post has been successfully created.");
+    setCreating(false);
+    getAllPosts();
+  };
 
   return (
     <>
@@ -28,15 +48,7 @@ function CreatePostButton() {
         <Modal open={true} onClose={() => setCreating(false)} size="small">
           <Modal.Header>New Post</Modal.Header>
           <Modal.Content>
-            <PostForm
-              onSubmitEffect={() => {
-                setCreating(false);
-                getAllPosts();
-              }}
-              onCancelEffect={() => {
-                setCreating(false);
-              }}
-            />
+            <PostForm onSubmit={onSubmit} onCancel={() => setCreating(false)} />
           </Modal.Content>
         </Modal>
       </TransitionablePortal>

@@ -16,16 +16,17 @@ from portfolify.common.api_responses import (
 
 # Create your views here.
 
+
 class PostDetail(APIView):
     def get(self, request, id):
         post = Post.objects.get_post(id)
 
         if post is None:
             return create_custom_negative_response(
-                data={"id": [f"id {id} does not exist"]}, 
+                data={"id": [f"id {id} does not exist"]},
                 response_status=status.HTTP_404_NOT_FOUND
             )
-        
+
         serializer = ViewPostSerializer(post)
 
         return create_ok_response(serializer.data)
@@ -50,10 +51,10 @@ class PostList(APIView):
 
         title = serializer.validated_data.get("title")
         content = serializer.validated_data.get("content")
-        image_uri = serializer.validated_data.get("image_uri")
+        image_data = serializer.validated_data.get("image_data")
 
         new_post = Post.objects.create_post(
-            title=title, content=content, image_uri=image_uri)
+            title=title, content=content, image_data=image_data)
 
         return create_custom_positive_response(
             data=ViewPostSerializer(new_post).data,
@@ -69,13 +70,13 @@ class PostList(APIView):
         id = serializer.validated_data.get("id")
         title = serializer.validated_data.get("title")
         content = serializer.validated_data.get("content")
-        image_uri = serializer.validated_data.get("image_uri")
+        image_data = serializer.validated_data.get("image_data")
 
         modified_post = Post.objects.modify_post(
             id=id,
             title=title,
             content=content,
-            image_uri=image_uri
+            image_data=image_data
         )
 
         return create_ok_response(

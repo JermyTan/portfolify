@@ -75,7 +75,7 @@ function ImageUploadCropper({ onFinalizeImage, defaultImage = "" }: Props) {
           image={uploadedImageData.data}
           onCropImage={(image) => {
             setCroppedImage(image);
-            onFinalizeImage?.({ name: uploadedImageData.name, data: image });
+            onFinalizeImage?.({ ...uploadedImageData, data: image });
           }}
           onCancel={() => setUploadedImageData(undefined)}
         />

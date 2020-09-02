@@ -10,21 +10,21 @@ def id_exists(id):
 class CreatePostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
-        fields = ["title", "content", "image_uri"]
+        fields = ["title", "content", "image_data"]
 
     # exclude data:image/png;base64, prefix
-    image_uri = serializers.RegexField(r'([^\"]*)', required=False)
+    image_data = serializers.RegexField(r'([^\"]*)', required=False)
 
 
 class ModifyPostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
-        fields = ["id", "title", "content", "image_uri"]
+        fields = ["id", "title", "content", "image_data"]
 
     id = serializers.IntegerField(validators=[id_exists])
-    image_uri = serializers.RegexField(r'([^\"]*)', required=False)
+    image_data = serializers.RegexField(r'([^\"]*)', required=False)
 
-    ## image_uri = serializers.RegexField(r'data:image\/(?:jpg|gif|png|jpeg);base64,([^\"]*)', required=False)
+    ## image_data = serializers.RegexField(r'data:image\/(?:jpg|gif|png|jpeg);base64,([^\"]*)', required=False)
 
 
 class DeleteSerializer(serializers.Serializer):
