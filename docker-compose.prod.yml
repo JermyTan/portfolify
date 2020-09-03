@@ -34,7 +34,7 @@ services:
 
   ## entry point for portfolify app containers
   app-reverse-proxy:
-    image: jermytan/portfolify-reverse-proxy
+    image: jermytan/portfolify-reverse-proxy:production
     volumes:
       - static-volume:/app/static
     networks:
@@ -50,14 +50,14 @@ services:
 
   ## can only be accessed within frontend network
   frontend:
-    image: jermytan/portfolify-frontend
+    image: jermytan/portfolify-frontend:production
     networks:
       - frontend
     restart: always
 
   ## can only be accessed within backend network
   backend:
-    image: jermytan/portfolify-backend
+    image: jermytan/portfolify-backend:production
     command: gunicorn portfolify.wsgi:application --bind 0.0.0.0:8000
     volumes:
       - static-volume:/app/static

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import useAxios from "axios-hooks";
 import { useParams } from "react-router-dom";
 import { Container, Segment } from "semantic-ui-react";
@@ -12,7 +12,7 @@ function AppPostBody() {
   const { id } = useParams();
   const [isEditing, setEditing] = useState(false);
   const [{ data: response, loading, error }, getPost] = useAxios({
-    url: `/posts/${id}`,
+    url: `/posts/${id}/`,
     method: "get",
     baseURL: process.env.REACT_APP_API_URL,
   });
@@ -26,6 +26,12 @@ function AppPostBody() {
     },
     { manual: true }
   );
+
+  useEffect(() => {
+    if (error) {
+      console.log(error, error?.response);
+    }
+  }, [error]);
 
   const onSaveChanges = async (data: FormFieldProps) => {
     const { encodedImageData, title, content } = data;

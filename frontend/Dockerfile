@@ -1,4 +1,5 @@
 FROM node:14.8.0-alpine AS build
+ARG REACT_APP_API_URL
 
 ## set custom working directory
 WORKDIR /app
@@ -10,7 +11,7 @@ COPY . .
 RUN yarn install
 
 ## build project
-RUN yarn build
+RUN REACT_APP_API_URL=${REACT_APP_API_URL} yarn build
 
 
 ## prepare nginx

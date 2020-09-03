@@ -72,7 +72,7 @@ function ImageCropper({
         (await getCroppedImage(image, croppedAreaPixels, rotation)) ?? "";
       onCropImage(croppedImage);
     } catch (error) {
-      console.log(error);
+      console.log(error, error?.response);
     }
     setCropping(false);
   };
@@ -95,11 +95,11 @@ function ImageCropper({
           onCropChange={setCrop}
           onZoomChange={setZoom}
           onCropComplete={(croppedArea, croppedAreaPixels) => {
-            console.log(croppedArea, croppedAreaPixels);
             setCroppedAreaPixes(croppedAreaPixels);
           }}
           showGrid={false}
           minZoom={0.75}
+          maxZoom={4}
           restrictPosition={false}
           rotation={rotation}
           onRotationChange={onRotationChange}

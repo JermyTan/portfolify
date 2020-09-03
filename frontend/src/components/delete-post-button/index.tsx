@@ -28,7 +28,7 @@ function DeletePostButton({ className, id }: Props) {
       setDeleting(false);
       history.push("/");
     } catch (error) {
-      console.log(error);
+      console.log(error, error?.response);
       toast.error("An unkown error has occurred.");
     }
   };

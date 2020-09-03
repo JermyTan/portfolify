@@ -1,4 +1,4 @@
-import React, { createContext } from "react";
+import React, { createContext, useEffect } from "react";
 import useAxios from "axios-hooks";
 import { AxiosError } from "axios";
 
@@ -37,12 +37,18 @@ type Props = {
 function PostProvider({ children }: Props) {
   const [{ data: response, loading, error }, refetch] = useAxios(
     {
-      url: "/posts",
+      url: "/posts/",
       method: "get",
       baseURL: process.env.REACT_APP_API_URL,
     },
     { manual: true }
   );
+
+  useEffect(() => {
+    if (error) {
+      console.log(error, error?.response);
+    }
+  }, [error]);
 
   return (
     <PostContext.Provider

@@ -3,7 +3,7 @@ version: "3.8"
 services:
   ## entry point for portfolify app containers
   app-reverse-proxy:
-    image: jermytan/portfolify-reverse-proxy
+    image: jermytan/portfolify-reverse-proxy:production
     build:
       context: ./app-reverse-proxy
     volumes:
@@ -20,18 +20,18 @@ services:
 
   ## can only be accessed from same network
   frontend:
-    image: jermytan/portfolify-frontend
+    image: jermytan/portfolify-frontend:production
     build:
       context: ./frontend
       args:
-        REACT_APP_API_URL: http://localhost/api
+        REACT_APP_API_URL: portfolify.jermytan.com/api
     networks:
       - frontend
     restart: always
 
   ## can only be accessed from same network
   backend:
-    image: jermytan/portfolify-backend
+    image: jermytan/portfolify-backend:production
     build:
       context: ./backend
     command: gunicorn portfolify.wsgi:application --bind 0.0.0.0:8000

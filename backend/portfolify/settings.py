@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     "django.contrib.sites",
     "django.contrib.flatpages",
     "rest_framework",
-    "blog.apps.BlogConfig"
+    "blog.apps.BlogConfig",
+    "portfolify"
 ]
 
 MIDDLEWARE = [

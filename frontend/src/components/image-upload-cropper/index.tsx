@@ -88,7 +88,6 @@ function ImageUploadCropper({
             onFinalizeImage?.({ ...uploadedImageData, data: image });
           }}
           onCancel={() => setUploadedImageData(undefined)}
-          enableRotation={true}
         />
       );
     } else {

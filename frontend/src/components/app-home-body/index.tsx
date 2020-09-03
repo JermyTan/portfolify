@@ -16,7 +16,7 @@ function AppHomeBody() {
       <LoaderWrapper
         isLoading={isLoading}
         loadingMessage="Retrieving all posts"
-        showDefaultMessage={!!error}
+        showDefaultMessage={!!error || posts.length === 0}
         defaultMessage="No posts found"
       >
         <Grid
