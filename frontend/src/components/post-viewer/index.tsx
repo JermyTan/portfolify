@@ -2,6 +2,7 @@ import React from "react";
 import { Header, Image, Divider, Button, Icon } from "semantic-ui-react";
 import { format } from "date-fns";
 import DeletePostButton from "../delete-post-button";
+import defaultImage from "../../assets/portfolify-16:9.png";
 
 type Props = {
   id: number;
@@ -15,7 +16,12 @@ type Props = {
 function PostViewer({ id, image, title, createdAt, content, onEdit }: Props) {
   return (
     <>
-      <Image className="preview-image" src={image} rounded centered />
+      <Image
+        className="preview-image"
+        src={image ?? defaultImage}
+        rounded
+        centered
+      />
       <Divider hidden />
       <Header as="h1">{title}</Header>
       {createdAt && (

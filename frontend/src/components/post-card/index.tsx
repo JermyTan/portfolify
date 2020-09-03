@@ -2,6 +2,7 @@ import React from "react";
 import { Card, Image } from "semantic-ui-react";
 import { format } from "date-fns";
 import { useHistory } from "react-router-dom";
+import defaultImage from "../../assets/portfolify-16:9.png";
 
 type Props = {
   id: number;
@@ -17,11 +18,16 @@ function PostCard({ id, title, createdAt, imageUrl }: Props) {
     <Card
       onClick={() => history.push(`/post/${id}`)}
       fluid
-      className="hvr-bob"
+      className="post-card hvr-bob"
       raised
       centered
     >
-      <Image src={imageUrl} wrapped ui={false} />
+      <Image
+        src={imageUrl ?? defaultImage}
+        alt="Portfolify"
+        wrapped
+        ui={false}
+      />
       <Card.Content className="post-content">
         <Card.Header>{title}</Card.Header>
         <Card.Meta>
