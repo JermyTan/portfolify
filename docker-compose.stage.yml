@@ -24,7 +24,7 @@ services:
     build:
       context: ./frontend
       args:
-        REACT_APP_API_URL: portfolify.jermytan.com/api
+        REACT_APP_API_URL: https://portfolify.jermytan.com/api
     networks:
       - frontend
     restart: always

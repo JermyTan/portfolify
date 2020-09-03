@@ -10,14 +10,14 @@ type ImageData = {
 
 type Props = {
   onFinalizeImage?: (imageData: ImageData) => void;
-  onChangeImage?: () => void;
+  onUnfinalizeImage?: () => void;
   defaultImage?: string;
 };
 
 function ImageUploadCropper({
   onFinalizeImage,
   defaultImage = "",
-  onChangeImage,
+  onUnfinalizeImage,
 }: Props) {
   const [uploadedImageData, setUploadedImageData] = useState<ImageData>();
   const [croppedImage, setCroppedImage] = useState("");
@@ -61,7 +61,10 @@ function ImageUploadCropper({
                 secondary
                 icon="arrow left"
                 content="Back"
-                onClick={() => setCroppedImage("")}
+                onClick={() => {
+                  setCroppedImage("");
+                  onUnfinalizeImage?.();
+                }}
               />
             )}
             <Button
@@ -72,7 +75,7 @@ function ImageUploadCropper({
               onClick={() => {
                 setCroppedImage("");
                 setUploadedImageData(undefined);
-                onChangeImage?.();
+                onUnfinalizeImage?.();
               }}
             />
           </div>

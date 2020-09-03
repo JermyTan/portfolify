@@ -79,7 +79,7 @@ function PostForm({
               [name, parseDataUrlToEncodedData(data)].join(":")
             );
           }}
-          onChangeImage={() => setValue("encodedImageData", undefined)}
+          onUnfinalizeImage={() => setValue("encodedImageData", undefined)}
         />
       </Form.Field>
 
