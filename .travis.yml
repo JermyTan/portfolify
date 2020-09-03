@@ -1,0 +1,16 @@
+language: python
+python:
+  - "3.8.5"
+services:
+  - postgresql
+before_install:
+  - cd backend
+install:
+  - pip install -r requirements.txt
+before_script:
+  - psql -U postgres -c "CREATE USER test with PASSWORD 'test';"
+  - psql -U postgres -c "ALTER USER test CREATEDB;"
+  - psql -U postgres -c "CREATE DATABASE test;"
+script:
+  - python manage.py migrate
+  - python manage.py test

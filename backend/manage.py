@@ -3,9 +3,10 @@
 import os
 import sys
 
-# only for dev
+# only for dev/test
 from dotenv import load_dotenv
-load_dotenv(".env.backend.local")
+TESTING = "test" in sys.argv
+load_dotenv(".env.backend.test" if TESTING else ".env.backend.local")
 
 
 def main():

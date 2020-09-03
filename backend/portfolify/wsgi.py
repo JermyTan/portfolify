@@ -8,12 +8,14 @@ https://docs.djangoproject.com/en/3.1/howto/deployment/wsgi/
 """
 
 import os
+import sys
 
 from django.core.wsgi import get_wsgi_application
 
-# only for dev
+# only for dev/test
 from dotenv import load_dotenv
-load_dotenv(".env.backend.local")
+TESTING = "test" in sys.argv
+load_dotenv(".env.backend.test" if TESTING else ".env.backend.local")
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'portfolify.settings')
 
