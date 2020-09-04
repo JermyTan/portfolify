@@ -29,7 +29,7 @@ class ModifyPostSerializer(serializers.ModelSerializer):
 
 class DeleteSerializer(serializers.Serializer):
     ids = serializers.ListField(
-        child=serializers.IntegerField(validators=[id_exists]), allow_empty=False)
+        child=serializers.IntegerField(validators=[id_exists]), allow_empty=True)
 
 
 class ViewPostSerializer(serializers.ModelSerializer):
