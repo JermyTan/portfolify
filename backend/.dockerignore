@@ -1,9 +1,22 @@
-## git
+# git
 .gitignore
 
-## docker
+# docker
 docker-compose.yml
 docker-compose.yaml
+
+# app engine
+env-variables.yml
+env-variables.yaml
+env-variables-template.yml
+env-variables-template.yaml
+process-env.sh
+app.yml
+app.yaml
+.gcloudignore
+
+# Django static folder
+static/
 
 # Django #
 *.log

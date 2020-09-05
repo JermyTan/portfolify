@@ -1,3 +1,10 @@
+# app engine
+env-variables.yml
+env-variables.yaml
+
+# Django static folder
+static/
+
 # Django #
 *.log
 *.pot

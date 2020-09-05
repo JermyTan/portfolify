@@ -8,6 +8,6 @@ Execute:
 
 ### `pip install -r requirements.txt`
 
-## Run Server
+## Run development server
 
 ### `python manage.py runserver`
