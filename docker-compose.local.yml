@@ -33,24 +33,11 @@ services:
       - backend
     restart: always
     env_file:
-      - ./backend/.env.backend.dev
-    depends_on:
-      - db
-
-  db:
-    image: postgres:12-alpine
-    networks:
-      - backend
-    volumes:
-      - postgres-data:/var/lib/postgresql/data/
-    env_file:
-      - ./backend/.env.db.dev
-    restart: always
+      - ./backend/.env.backend.local
 
 networks:
   frontend:
   backend:
 
 volumes:
-  postgres-data:
   static-volume:
