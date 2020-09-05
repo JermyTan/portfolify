@@ -2,6 +2,7 @@ import React from "react";
 import { Header, Image, Divider, Button, Icon } from "semantic-ui-react";
 import { format } from "date-fns";
 import DeletePostButton from "../delete-post-button";
+import Linkify from "linkifyjs/react";
 import defaultImage from "../../assets/portfolify-16:9.png";
 
 type Props = {
@@ -30,7 +31,9 @@ function PostViewer({ id, image, title, createdAt, content, onEdit }: Props) {
 
       <Divider />
 
-      <p className="post-body-content">{content}</p>
+      <Linkify tagName="div">
+        <p className="post-body-content">{content}</p>
+      </Linkify>
 
       <Divider hidden section />
 
